@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📺 Nexus Live Player</title>
+    <title>📺 edition Live Player</title>
     <link rel="stylesheet" href="style.css">
     <!-- HLS Player Library for Browser Streaming -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -27,7 +27,7 @@
         const streamUrl = params.get('stream');
 
         if (channelName) {
-            document.getElementById('playingChannelName').innerText = `🔴 Playing: ${decodeURIComponent(channelName)}`;
+            document.getElementById('playingChannelName').innerText = `now Playing: ${decodeURIComponent(channelName)}`;
         }
 
         if (streamUrl) {
