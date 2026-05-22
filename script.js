@@ -1,5 +1,5 @@
 // 1. Default Playlist URL Jo aapne diya hai
-const defaultM3uUrl = "https://la.drmlive.au/tp/playlist.php";
+const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u";
 
 // CORS Proxy browser security restrictions bypass karne ke liye
 const corsProxy = "https://cors-anywhere.herokuapp.com/";
