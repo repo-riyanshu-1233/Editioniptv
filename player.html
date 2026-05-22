@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📺 Nexus Live Player</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- HLS Player Library for Browser Streaming -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body style="justify-content: center; padding: 20px;">
+
+    <div class="player-page-container">
+        <h2 id="playingChannelName">Loading Channel...</h2>
+        
+        <div class="video-wrapper">
+            <video id="videoPlayer" controls autoplay preload="auto"></video>
+        </div>
+        
+        <button class="btn" style="margin-top: 20px;" onclick="window.close()">❌ Close Player</button>
+    </div>
+
+    <script>
+        // URL se Channel Name aur Stream Link nikalne ke liye logic
+        const params = new URLSearchParams(window.location.search);
+        const channelName = params.get('name');
+        const streamUrl = params.get('stream');
+
+        if (channelName) {
+            document.getElementById('playingChannelName').innerText = `🔴 Playing: ${decodeURIComponent(channelName)}`;
+        }
+
+        if (streamUrl) {
+            const video = document.getElementById('videoPlayer');
+            const decodedUrl = decodeURIComponent(streamUrl);
+
+            // Agar browser HLS support karta hai (Hls.js library)
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(decodedUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            } 
+            // Apple Safari browser ke liye native support
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = decodedUrl;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
+        } else {
+            document.getElementById('playingChannelName').innerText = "⚠️ Error: No Stream URL Found!";
+        }
+    </script>
+</body>
+</html>
