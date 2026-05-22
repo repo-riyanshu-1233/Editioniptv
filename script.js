@@ -1,16 +1,12 @@
-// 1. Default Playlist URL Jo aapne diya hai
-const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u";
-
-// CORS Proxy browser security restrictions bypass karne ke liye
-const corsProxy = "https://cors-anywhere.herokuapp.com/";
+// 1. Direct local file se data load hoga (Bina CORS proxy ke)
+const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u"; 
 
 let allChannels = [];
 
-// URL parameters read karne ke liye logic (New tab checking)
 const urlParams = new URLSearchParams(window.location.search);
 const activePlaylistUrl = urlParams.get('playlist') || defaultM3uUrl;
 
-// UI update as per active playlist source
+// Dynamic UI Text Update
 if (activePlaylistUrl !== defaultM3uUrl) {
     document.getElementById('appTitle').innerText = "📡 Custom IPTV Stream";
     document.getElementById('playlistSource').innerText = `Source: ${activePlaylistUrl}`;
@@ -18,22 +14,22 @@ if (activePlaylistUrl !== defaultM3uUrl) {
     document.getElementById('playlistSource').innerText = `Source: Default System Playlist`;
 }
 
-// 2. Core M3U Parsing Logic
+// Data Load Engine
 async function loadIPTVData() {
     const statusText = document.getElementById('statusMessage');
     try {
-        // Fetching data via CORS proxy
-        const response = await fetch(corsProxy + activePlaylistUrl);
-        if (!response.ok) throw new Error("Network response was not ok");
+        const response = await fetch(activePlaylistUrl);
+        if (!response.ok) throw new Error("File response error");
         
         const textData = await response.text();
         parseM3U(textData);
     } catch (error) {
-        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please enable CORS extension or check link.</span>`;
+        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please check if playlist.m3u exists in root folder.</span>`;
         console.error("Fetch Error: ", error);
     }
 }
 
+// M3U Line Parser
 function parseM3U(text) {
     const lines = text.split('\n');
     let currentName = "";
@@ -46,20 +42,20 @@ function parseM3U(text) {
         } else if (line.startsWith('http')) {
             if (currentName) {
                 allChannels.push({ name: currentName, url: line });
-                currentName = ""; // Resetting for next sequence
+                currentName = "";
             }
         }
     }
 
     if (allChannels.length === 0) {
-        document.getElementById('statusMessage').innerText = "No channels found in this playlist file.";
+        document.getElementById('statusMessage').innerText = "No channels found in this link.";
     } else {
         document.getElementById('statusMessage').innerText = `🚀 ${allChannels.length} Channels Loaded Successfully!`;
         renderGrid(allChannels);
     }
 }
 
-// 3. Grid UI Rendering
+// Render Dashboard Cards
 function renderGrid(channelsList) {
     const grid = document.getElementById('channelGrid');
     grid.innerHTML = "";
@@ -68,41 +64,39 @@ function renderGrid(channelsList) {
         const card = document.createElement('div');
         card.className = 'channel-card';
         
-        // Auto generating mobile streaming intents for VLC Player
-        const vlcIntent = `intent://${channel.url.replace(/^https?:\/\//, '')}#Intent;scheme=http;package=org.videolan.vlc;end`;
-        
         card.innerHTML = `
             <div class="channel-icon">📺</div>
             <div class="channel-name" title="${channel.name}">${channel.name}</div>
         `;
         
         card.onclick = () => {
-            // Instantly opens stream path inside system's default VLC application
-            window.location.href = vlcIntent;
+            // Naye web tab (player.html) me stream data secure pass karna
+            const playerUrl = `player.html?name=${encodeURIComponent(channel.name)}&stream=${encodeURIComponent(channel.url)}`;
+            window.open(playerUrl, '_blank');
         };
         
         grid.appendChild(card);
     });
 }
 
-// 4. Instant Filter Logic
+// Instant Filter Search
 function searchChannels() {
     const query = document.getElementById('searchBar').value.toLowerCase();
     const filtered = allChannels.filter(channel => channel.name.toLowerCase().includes(query));
     renderGrid(filtered);
 }
 
-// 5. New Playlist Addition Engine (Opens clone copy in a new tab)
+// Custom Playlist Adding Logic (Render Compatibility Updated)
 function addNewPlaylist() {
     const inputUrl = prompt("Enter your custom M3U/PHP Playlist URL:");
     if (inputUrl && inputUrl.trim().startsWith('http')) {
-        // Current website path ko detect karke naye tab mein URL param ke sath bhejta hai
-        const secureTargetUrl = `${window.location.origin}${window.location.pathname}?playlist=${encodeURIComponent(inputUrl.trim())}`;
-        window.open(secureTargetUrl, '_blank');
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('playlist', inputUrl.trim());
+        window.open(currentUrl.toString(), '_blank');
     } else if (inputUrl) {
         alert("Invalid URL structure. Please insert a valid HTTP/HTTPS streaming link.");
     }
 }
 
-// Initialize Web App Engine
+// App Initialize
 loadIPTVData();
