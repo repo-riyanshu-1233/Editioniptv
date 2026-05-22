@@ -1,0 +1,160 @@
+:root {
+    --bg-color: #0d0e12;
+    --card-bg: #161822;
+    --accent-color: #00ff66;
+    --text-color: #ffffff;
+    --text-muted: #8a8f98;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header {
+    width: 100%;
+    max-width: 1100px;
+    padding: 40px 20px 20px 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #00ff66, #00bcff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header p {
+    color: var(--text-muted);
+    margin: 0 0 30px 0;
+}
+
+/* Search aur Controls Area */
+.controls-container {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+#searchBar {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid #262938;
+    border-radius: 30px;
+    color: var(--text-color);
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#searchBar:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+}
+
+.btn {
+    background-color: var(--card-bg);
+    border: 1px solid #262938;
+    color: var(--text-color);
+    padding: 0 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background-color: var(--accent-color);
+    color: #000;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+}
+
+/* Status Indicator */
+#statusMessage {
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+/* Channel Grid Layout */
+.main-content {
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 20px 40px 20px;
+    box-sizing: border-box;
+}
+
+.channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.channel-card {
+    background-color: var(--card-bg);
+    border: 1px solid #1f2230;
+    border-radius: 16px;
+    padding: 25px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.channel-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+    background: linear-gradient(145deg, #161822, #1a1d2a);
+}
+
+.channel-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.channel-name {
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive Configuration (Mobile View ke liye) */
+@media (max-width: 600px) {
+    .controls-container {
+        flex-direction: column;
+    }
+    .btn {
+        padding: 15px;
+    }
+}
