@@ -1,21 +1,22 @@
-// 1. Direct local file se data load hoga (Bina CORS proxy ke)
+// Default playlist initialization 
 const defaultM3uUrl = "https://allinonereborn.online/m3u/jtv9.m3u"; 
 
 let allChannels = [];
-let currentPlaybackMode = "web"; // Default background track
+let currentPlaybackMode = "web"; // Default execution track
+let activeSelectedStreamUrl = "";
 
 const urlParams = new URLSearchParams(window.location.search);
 const activePlaylistUrl = urlParams.get('playlist') || defaultM3uUrl;
 
-// Dynamic UI Text Update (Aapka original structure vesa hi hai)
+// Maintaining UI state matching definitions
 if (activePlaylistUrl !== defaultM3uUrl) {
-    document.getElementById('appTitle').innerText = " Custom IPTV Stream";
-    document.getElementById('playlistSource').innerText = `Source: ${activePlaylistUrl}`;
+    document.getElementById('appTitle').innerText = "📡 Custom IPTV Stream";
+    document.getElementById('playlistSource').innerText = `Source: Custom User Playlist`;
 } else {
-    document.getElementById('playlistSource').innerText = `Source: Default System Playlist`;
+    document.getElementById('playlistSource').innerText = `Source: AllInOne Reborn jtv9`;
 }
 
-// 📱 CONTROL ENGINE: Interface ko touch kiye bina click action track badalna
+// 🚀 CONTROL ENGINE: Interface ko touch kiye bina click action badalna
 function togglePlaybackMode() {
     const btn = document.getElementById('modeToggleBtn');
     const statusText = document.getElementById('currentModeStatus');
@@ -37,22 +38,22 @@ function togglePlaybackMode() {
     }
 }
 
-// Data Load Engine
+// Network Data Stream Fetcher
 async function loadIPTVData() {
     const statusText = document.getElementById('statusMessage');
     try {
         const response = await fetch(activePlaylistUrl);
-        if (!response.ok) throw new Error("File response error");
+        if (!response.ok) throw new Error("Network configuration breakdown");
         
         const textData = await response.text();
         parseM3U(textData);
     } catch (error) {
-        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please check playlist.m3u.</span>`;
-        console.error("Fetch Error: ", error);
+        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please verify source streams or check hosting limits.</span>`;
+        console.error("Fetch Failure: ", error);
     }
 }
 
-// M3U Line Parser
+// M3U Processing Logic
 function parseM3U(text) {
     const lines = text.split('\n');
     let currentName = "";
@@ -71,14 +72,14 @@ function parseM3U(text) {
     }
 
     if (allChannels.length === 0) {
-        document.getElementById('statusMessage').innerText = "No channels found in this link.";
+        document.getElementById('statusMessage').innerText = "Empty database stream matrix.";
     } else {
         document.getElementById('statusMessage').innerText = `🚀 ${allChannels.length} Channels Loaded Successfully!`;
         renderGrid(allChannels);
     }
 }
 
-// Render Dashboard Cards (Yahan action bypass system insert kiya hai)
+// Render Same Interface Grid Layout
 function renderGrid(channelsList) {
     const grid = document.getElementById('channelGrid');
     grid.innerHTML = "";
@@ -92,14 +93,14 @@ function renderGrid(channelsList) {
             <div class="channel-name" title="${channel.name}">${channel.name}</div>
         `;
         
-        // Is click handler ke andar humne smart routing system laga diya hai
+        // Dynamic Interception check upon execution handler
         card.onclick = () => {
             if (currentPlaybackMode === "web") {
-                // Aapka purana code jo naye browser tab me video chalata tha
+                // Interface remains same, triggers normal browser player tab
                 const playerUrl = `player.html?name=${encodeURIComponent(channel.name)}&stream=${encodeURIComponent(channel.url)}`;
                 window.open(playerUrl, '_blank');
             } else {
-                // Agar user ne mode switch kiya hai to wahi interface me popup khulega
+                // Interface remains same, triggers the 3 Options Modal window
                 openAppModal(channel.name, channel.url);
             }
         };
@@ -108,33 +109,33 @@ function renderGrid(channelsList) {
     });
 }
 
-// Instant Filter Search
+// Pure Interface Filters (Search behaves identical)
 function searchChannels() {
     const query = document.getElementById('searchBar').value.toLowerCase();
     const filtered = allChannels.filter(channel => channel.name.toLowerCase().includes(query));
     renderGrid(filtered);
 }
 
-// Custom Playlist Adding Logic (Render Compatibility Updated)
+// Add Custom Playlist Engine (Maintains native view state)
 function addNewPlaylist() {
-    const inputUrl = prompt("Enter your custom M3U/PHP Playlist URL:");
+    const inputUrl = prompt("Enter your custom M3U/M3U8 Playlist URL:");
     if (inputUrl && inputUrl.trim().startsWith('http')) {
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set('playlist', inputUrl.trim());
         window.open(currentUrl.toString(), '_blank');
     } else if (inputUrl) {
-        alert("Invalid URL structure. Please insert a valid HTTP/HTTPS streaming link.");
+        alert("Invalid URL parameters applied.");
     }
 }
 
-// Deep Linking Mobile Handler Operations (Modal triggers)
+// Deep Linking Mobile Handler Operations
 function openAppModal(name, url) {
+    activeSelectedStreamUrl = url;
     document.getElementById('modalChannelName').innerText = `${name}`;
     
-    // URL se http:// ya https:// hatane ke liye system rule
     const cleanUrl = url.replace(/^https?:\/\//, '');
 
-    // Android Intent Protocols mapping for standard Android video Players
+    // Android Intent Protocol Mapping rules
     document.getElementById('vlcBtn').onclick = () => {
         window.location.href = `intent://${cleanUrl}#Intent;scheme=http;package=org.videolan.vlc;end`;
     };
@@ -154,5 +155,5 @@ function closeModal() {
     document.getElementById('appSelectorModal').style.display = 'none';
 }
 
-// App Initialize
+// Initializing Dashboard Environment
 loadIPTVData();
