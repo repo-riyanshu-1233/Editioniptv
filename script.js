@@ -1,5 +1,5 @@
 // 1. Direct local file se data load hoga (Bina CORS proxy ke)
-const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u"; 
+const defaultM3uUrl = "https://allinonereborn.online/playlist/push4k44.m3u8"; 
 
 let allChannels = [];
 
@@ -8,7 +8,7 @@ const activePlaylistUrl = urlParams.get('playlist') || defaultM3uUrl;
 
 // Dynamic UI Text Update
 if (activePlaylistUrl !== defaultM3uUrl) {
-    document.getElementById('appTitle').innerText = "📡 Custom IPTV Stream";
+    document.getElementById('appTitle').innerText = " Custom IPTV Stream";
     document.getElementById('playlistSource').innerText = `Source: ${activePlaylistUrl}`;
 } else {
     document.getElementById('playlistSource').innerText = `Source: Default System Playlist`;
@@ -24,7 +24,7 @@ async function loadIPTVData() {
         const textData = await response.text();
         parseM3U(textData);
     } catch (error) {
-        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please check if playlist.m3u exists in root folder.</span>`;
+        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please check playlist.m3u.</span>`;
         console.error("Fetch Error: ", error);
     }
 }
