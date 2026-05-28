@@ -1,21 +1,14 @@
-// 1. Aapka default source (M3U file ya direct stream link dono chalega)
-const defaultM3uUrl = "https://allinonereborn.online/playlist/push4k44.m3u8"; 
+// 1. Direct local file se data load hoga (Bina CORS proxy ke)
+const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u"; 
 
 let allChannels = [];
 
 const urlParams = new URLSearchParams(window.location.search);
 const activePlaylistUrl = urlParams.get('playlist') || defaultM3uUrl;
 
-// 🚀 SMART CHECKER: Agar link direct single channel (.m3u8) ka hai
-if (activePlaylistUrl.toLowerCase().includes('.m3u8') || activePlaylistUrl.toLowerCase().includes('.mp4')) {
-    // Dashboard load karne ke bajaye, seedha player.html par redirect kar do
-    const playerUrl = `player.html?name=${encodeURIComponent("Direct Live Stream")}&stream=${encodeURIComponent(activePlaylistUrl)}`;
-    window.location.href = playerUrl; 
-}
-
-// Dynamic UI Text Update (Normal Playlist ke liye)
+// Dynamic UI Text Update
 if (activePlaylistUrl !== defaultM3uUrl) {
-    document.getElementById('appTitle').innerText = "📡 Custom IPTV Stream";
+    document.getElementById('appTitle').innerText = " Custom IPTV Stream";
     document.getElementById('playlistSource').innerText = `Source: ${activePlaylistUrl}`;
 } else {
     document.getElementById('playlistSource').innerText = `Source: Default System Playlist`;
@@ -31,7 +24,7 @@ async function loadIPTVData() {
         const textData = await response.text();
         parseM3U(textData);
     } catch (error) {
-        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please check your link or file structure.</span>`;
+        statusText.innerHTML = `<span style="color: #ff4757;">⚠️ Connection Error! Please check playlist.m3u.</span>`;
         console.error("Fetch Error: ", error);
     }
 }
@@ -77,6 +70,7 @@ function renderGrid(channelsList) {
         `;
         
         card.onclick = () => {
+            // Naye web tab (player.html) me stream data secure pass karna
             const playerUrl = `player.html?name=${encodeURIComponent(channel.name)}&stream=${encodeURIComponent(channel.url)}`;
             window.open(playerUrl, '_blank');
         };
@@ -92,9 +86,9 @@ function searchChannels() {
     renderGrid(filtered);
 }
 
-// Custom Playlist / Single Link Adding Logic
+// Custom Playlist Adding Logic (Render Compatibility Updated)
 function addNewPlaylist() {
-    const inputUrl = prompt("Enter your custom M3U Playlist OR Single M3U8 Channel URL:");
+    const inputUrl = prompt("Enter your custom M3U/PHP Playlist URL:");
     if (inputUrl && inputUrl.trim().startsWith('http')) {
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set('playlist', inputUrl.trim());
