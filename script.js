@@ -1,5 +1,5 @@
 // 1. Direct local file se data load hoga (Bina CORS proxy ke)
-const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u"; 
+const defaultM3uUrl = "https://allinonereborn.online/m3u/jtv9.m3u"; 
 
 let allChannels = [];
 
