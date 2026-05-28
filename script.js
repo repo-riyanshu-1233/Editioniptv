@@ -2,16 +2,39 @@
 const defaultM3uUrl = "https://allinonereborn.online/m3u/jtv9.m3u"; 
 
 let allChannels = [];
+let currentPlaybackMode = "web"; // Default background track
 
 const urlParams = new URLSearchParams(window.location.search);
 const activePlaylistUrl = urlParams.get('playlist') || defaultM3uUrl;
 
-// Dynamic UI Text Update
+// Dynamic UI Text Update (Aapka original structure vesa hi hai)
 if (activePlaylistUrl !== defaultM3uUrl) {
     document.getElementById('appTitle').innerText = " Custom IPTV Stream";
     document.getElementById('playlistSource').innerText = `Source: ${activePlaylistUrl}`;
 } else {
     document.getElementById('playlistSource').innerText = `Source: Default System Playlist`;
+}
+
+// 📱 CONTROL ENGINE: Interface ko touch kiye bina click action track badalna
+function togglePlaybackMode() {
+    const btn = document.getElementById('modeToggleBtn');
+    const statusText = document.getElementById('currentModeStatus');
+    
+    if (currentPlaybackMode === "web") {
+        currentPlaybackMode = "external";
+        btn.innerText = "📺 Play on Web Browser";
+        btn.style.borderColor = "#00bcff";
+        btn.style.color = "#00bcff";
+        statusText.innerText = "🚀 Current Action: Clicking cards will prompt Android External Apps";
+        statusText.style.color = "#00ff66";
+    } else {
+        currentPlaybackMode = "web";
+        btn.innerText = "📱 Play on External App";
+        btn.style.borderColor = "#00ff66";
+        btn.style.color = "#00ff66";
+        statusText.innerText = "✨ Current Action: Playing inside Web Browser Player";
+        statusText.style.color = "#00bcff";
+    }
 }
 
 // Data Load Engine
@@ -55,7 +78,7 @@ function parseM3U(text) {
     }
 }
 
-// Render Dashboard Cards
+// Render Dashboard Cards (Yahan action bypass system insert kiya hai)
 function renderGrid(channelsList) {
     const grid = document.getElementById('channelGrid');
     grid.innerHTML = "";
@@ -69,10 +92,16 @@ function renderGrid(channelsList) {
             <div class="channel-name" title="${channel.name}">${channel.name}</div>
         `;
         
+        // Is click handler ke andar humne smart routing system laga diya hai
         card.onclick = () => {
-            // Naye web tab (player.html) me stream data secure pass karna
-            const playerUrl = `player.html?name=${encodeURIComponent(channel.name)}&stream=${encodeURIComponent(channel.url)}`;
-            window.open(playerUrl, '_blank');
+            if (currentPlaybackMode === "web") {
+                // Aapka purana code jo naye browser tab me video chalata tha
+                const playerUrl = `player.html?name=${encodeURIComponent(channel.name)}&stream=${encodeURIComponent(channel.url)}`;
+                window.open(playerUrl, '_blank');
+            } else {
+                // Agar user ne mode switch kiya hai to wahi interface me popup khulega
+                openAppModal(channel.name, channel.url);
+            }
         };
         
         grid.appendChild(card);
@@ -96,6 +125,33 @@ function addNewPlaylist() {
     } else if (inputUrl) {
         alert("Invalid URL structure. Please insert a valid HTTP/HTTPS streaming link.");
     }
+}
+
+// Deep Linking Mobile Handler Operations (Modal triggers)
+function openAppModal(name, url) {
+    document.getElementById('modalChannelName').innerText = `${name}`;
+    
+    // URL se http:// ya https:// hatane ke liye system rule
+    const cleanUrl = url.replace(/^https?:\/\//, '');
+
+    // Android Intent Protocols mapping for standard Android video Players
+    document.getElementById('vlcBtn').onclick = () => {
+        window.location.href = `intent://${cleanUrl}#Intent;scheme=http;package=org.videolan.vlc;end`;
+    };
+    
+    document.getElementById('mxBtn').onclick = () => {
+        window.location.href = `intent://${cleanUrl}#Intent;scheme=http;package=com.mxtech.videoplayer.ad;end`;
+    };
+    
+    document.getElementById('ottBtn').onclick = () => {
+        window.location.href = `intent://${cleanUrl}#Intent;scheme=http;package=ru.scb.ottnavigator;end`;
+    };
+
+    document.getElementById('appSelectorModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('appSelectorModal').style.display = 'none';
 }
 
 // App Initialize
