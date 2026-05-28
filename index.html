@@ -5,6 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ EDITION IPTV</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* External App Options Modal Window Styling - Clean & Premium Layout */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; width: 100%; height: 100%; 
+            background-color: rgba(13, 14, 18, 0.85);
+            backdrop-filter: blur(8px);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: #161822;
+            border: 1px solid #262938;
+            padding: 30px;
+            border-radius: 24px;
+            width: 90%; max-width: 380px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 255, 102, 0.15);
+        }
+        .modal-title { margin-top: 0; font-size: 1.3rem; color: #fff; font-weight: 600; font-family: sans-serif; }
+        .app-btn-container {
+            display: flex; flex-direction: column; gap: 12px; margin-top: 25px;
+        }
+        .app-btn {
+            padding: 14px 18px; border-radius: 14px; border: 1px solid #1f2230;
+            background-color: #0d0e12; color: #fff; cursor: pointer;
+            font-size: 15px; font-weight: 600; transition: all 0.25s ease; 
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .app-btn:hover {
+            border-color: #00ff66;
+            background-color: #161822;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.1);
+        }
+        .rec-tag {
+            background-color: #00ff66; color: #000; font-size: 10px;
+            padding: 3px 8px; border-radius: 6px; font-weight: bold; letter-spacing: 0.5px;
+        }
+        .active-mode-indicator {
+            font-size: 13px; color: #00bcff; margin-top: 12px; font-weight: 500; font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,7 +60,12 @@
                 <input type="text" id="searchBar" placeholder="🔍 Search channels instantly..." onkeyup="searchChannels()">
             </div>
             <button class="btn" onclick="addNewPlaylist()">➕ Add Custom Playlist</button>
+            <!-- 📱 Aapka naya mode controller button jo interface ko bina badle logic change karega -->
+            <button class="btn" id="modeToggleBtn" onclick="togglePlaybackMode()" style="border-color: #00ff66; color: #00ff66;">📱 Play on External App</button>
         </div>
+
+        <!-- ⚡ Niche status dikhane ke liye dynamic indicator line -->
+        <div class="active-mode-indicator" id="currentModeStatus">✨ Current Action: Playing inside Web Browser Player</div>
 
         <div id="statusMessage">Connecting to data stream...</div>
     </div>
@@ -25,6 +73,19 @@
     <div class="main-content">
         <div class="channel-grid" id="channelGrid">
             <!-- Channels JavaScript se yahan load honge -->
+        </div>
+    </div>
+
+    <!-- 🚀 External App Selection Popup (Jab external mode me tap karenge tab khulega) -->
+    <div id="appSelectorModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalChannelName">Select Target Player</h3>
+            <div class="app-btn-container">
+                <button class="app-btn" id="vlcBtn">🧡 VLC Player <span class="rec-tag">RECOMMENDED</span></button>
+                <button class="app-btn" id="mxBtn">💙 MX Player</button>
+                <button class="app-btn" id="ottBtn">💚 OTT Player</button>
+            </div>
+            <button class="btn" style="margin-top: 25px; padding: 12px 25px; background: #262938; border: none; color: white; border-radius: 10px; cursor: pointer;" onclick="closeModal()">❌ Cancel</button>
         </div>
     </div>
 
