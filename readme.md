@@ -4,6 +4,8 @@ Edition IPTV is a web-based IPTV streaming platform that allows users to browse 
 
 The project integrates publicly available IPTV channel data and fetches the available streams into the website, making it easier for users to discover and watch channels across different countries, languages, and categories.
 
+live demo web - https://editioniptv.onrender.com
+
 ✨ Features
 
 - 🌍 Worldwide TV Channels — Access channels from different countries and regions.
