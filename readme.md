@@ -20,17 +20,7 @@ The project integrates publicly available IPTV channel data and fetches the avai
 
 Edition IPTV uses publicly available IPTV data and integrates it into the web application.
 
-Public IPTV Source
-        ↓
-   Fetch Channel Data
-        ↓
-    Edition IPTV
-        ↓
- Channel Search & Categories
-        ↓
-      Web Player
-        ↓
-     Live Streaming
+Public IPTV Source -> Fetch Channel Data -> Edition IPTV -> Channel Search & Categories -> Web Player -> Live Streaming
 
 Users can browse the available channels and select a channel to start streaming. The platform can also support custom IPTV libraries/playlists when a user wants to use their own channel collection.
 
@@ -44,13 +34,7 @@ Example:
 
 Custom M3U Playlist
         ↓
-   Edition IPTV
-        ↓
-   Parse Channels
-        ↓
-   Browse / Search
-        ↓
-      Watch
+   Edition IPTV -> Parse Channels -> Browse / Search -> Watch
 
 🌐 Channel Categories
 
