@@ -145,7 +145,6 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Player Page Specific Styling */
 .player-page-container {
     width: 100%;
     max-width: 850px;
