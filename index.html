@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ EDITION IPTV</title>
+    <title>EDITION IPTV</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* External App Options Modal Window Styling - Clean & Premium Layout */
         .modal {
             display: none; 
             position: fixed; 
@@ -52,38 +51,36 @@
 <body>
 
     <div class="header">
-        <h1 id="appTitle">⚡ EDITION IPTV</h1>
-        <p id="playlistSource">Source: Loading default playlist...</p>
+        <h1 id="appTitle">EDITION IPTV</h1>
+        <p id="playlistSource">Source: default playlist</p>
         
         <div class="controls-container">
             <div class="search-wrapper">
-                <input type="text" id="searchBar" placeholder="🔍 Search channels instantly..." onkeyup="searchChannels()">
+                <input type="text" id="searchBar" placeholder="Search channels instantly..." onkeyup="searchChannels()">
             </div>
-            <button class="btn" onclick="addNewPlaylist()">➕ Add Custom Playlist</button>
-            <!-- 📱 Aapka naya mode controller button jo interface ko bina badle logic change karega -->
+            <button class="btn" onclick="addNewPlaylist()">Add Custom Playlist</button>
             <button class="btn" id="modeToggleBtn" onclick="togglePlaybackMode()" style="border-color: #00ff66; color: #00ff66;">📱 Play on External App</button>
         </div>
 
-        <!-- ⚡ Niche status dikhane ke liye dynamic indicator line -->
-        <div class="active-mode-indicator" id="currentModeStatus">✨ Current Action: Playing inside Web Browser Player</div>
+        
+        <div class="active-mode-indicator" id="currentModeStatus">Current Playing inside Web Browser</div>
 
-        <div id="statusMessage">Connecting to data stream...</div>
+        <div id="statusMessage">Connecting to stream</div>
     </div>
 
     <div class="main-content">
         <div class="channel-grid" id="channelGrid">
-            <!-- Channels JavaScript se yahan load honge -->
+        
         </div>
     </div>
 
-    <!-- 🚀 External App Selection Popup (Jab external mode me tap karenge tab khulega) -->
     <div id="appSelectorModal" class="modal">
         <div class="modal-content">
             <h3 class="modal-title" id="modalChannelName">Select Target Player</h3>
             <div class="app-btn-container">
-                <button class="app-btn" id="vlcBtn">🧡 VLC Player <span class="rec-tag">RECOMMENDED</span></button>
-                <button class="app-btn" id="mxBtn">💙 MX Player</button>
-                <button class="app-btn" id="ottBtn">💚 OTT Player</button>
+                <button class="app-btn" id="vlcBtn">VLC Player <span class="rec-tag">RECOMMENDED</span></button>
+                <button class="app-btn" id="mxBtn">MX Player</button>
+                <button class="app-btn" id="ottBtn">OTT Player</button>
             </div>
             <button class="btn" style="margin-top: 25px; padding: 12px 25px; background: #262938; border: none; color: white; border-radius: 10px; cursor: pointer;" onclick="closeModal()">❌ Cancel</button>
         </div>
