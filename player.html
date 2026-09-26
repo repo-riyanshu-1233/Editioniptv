@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📺 edition Live Player</title>
+    <title>edition Live Player</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body style="justify-content: center; padding: 20px;">
 
     <div class="player-page-container">
-        <h2 id="playingChannelName">Loading Channel...</h2>
+        <h2 id="playingChannelName">Loading Channel</h2>
         
         <div class="video-wrapper">
             <video id="videoPlayer" controls autoplay preload="auto"></video>
         </div>
         
-        <button class="btn" style="margin-top: 20px;" onclick="window.close()">❌ Close Player</button>
+        <button class="btn" style="margin-top: 20px;" onclick="window.close()">Close Player</button>
     </div>
 
     <script>
@@ -47,7 +47,7 @@
                 });
             }
         } else {
-            document.getElementById('playingChannelName').innerText = "⚠️ Error: No Stream URL Found!";
+            document.getElementById('playingChannelName').innerText = "Error: No Stream URL Found!";
         }
     </script>
 </body>
