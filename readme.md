@@ -57,7 +57,7 @@ Depending on the available IPTV data, channels may include:
 
 1. Clone the repository
 
-git clone https://github.com/repo-riyanshu-1233/edition-iptv.git
+git clone https://github.com/repo-riyanshu-1233/editioniptv.git
 
 2. Open the project
 
