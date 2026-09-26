@@ -1,4 +1,4 @@
-const defaultM3uUrl = " https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8."; 
+const defaultM3uUrl = "https://iptv-org.github.io/iptv/index.m3u"; 
 
 let allChannels = [];
 let currentPlaybackMode = "web";
