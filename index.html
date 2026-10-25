@@ -5,22 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080d17">
   <meta name="description" content="A browser-based IPTV playlist and media player for streams you are authorized to watch.">
-  <title>StreamDeck — IPTV Web Player</title>
+  <title>Edition IPTV — Live TV Web Player</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="app-shell">
+  <div id="appShell" class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="StreamDeck home">
+      <a class="brand" href="#" aria-label="Edition IPTV home">
         <span class="brand-mark" aria-hidden="true">▶</span>
-        <span class="brand-copy"><strong>StreamDeck</strong><small>IPTV WEB PLAYER</small></span>
+        <span class="brand-copy"><strong>Edition IPTV</strong><small>LIVE TV WEB PLAYER</small></span>
       </a>
       <div class="topbar-right">
         <span class="secure-pill"><span class="pulse-dot"></span> Browser playback</span>
         <button id="resetAppBtn" class="button button-quiet button-small" type="button" title="Clear the current session and reload the default playlist">Reset website</button>
       </div>
     </header>
+
+    <div class="mobile-search-bar" aria-label="Search channels">
+      <label class="search-wrap mobile-search-wrap" for="channelSearchMobile">
+        <span aria-hidden="true">⌕</span>
+        <input id="channelSearchMobile" type="search" placeholder="Search channels…" autocomplete="off" aria-label="Search channels">
+      </label>
+    </div>
 
     <div class="workspace">
       <aside class="sidebar panel" aria-label="Playlist and channels">
@@ -121,10 +128,21 @@
           </article>
         </section>
 
-        <footer class="page-footer">StreamDeck is a playlist player, not a channel provider. The default list is maintained by IPTV-org; availability and playback vary by channel, browser and source server.</footer>
+        <footer class="page-footer">Edition IPTV is a playlist player, not a channel provider. The default list is maintained by IPTV-org; availability and playback vary by channel, browser and source server.</footer>
       </main>
     </div>
   </div>
+  <section id="maintenanceScreen" class="maintenance-screen" hidden aria-labelledby="maintenanceTitle">
+    <div class="maintenance-card">
+      <div class="maintenance-emblem" aria-hidden="true">E</div>
+      <p class="maintenance-label">EDITION IPTV SUPPORT</p>
+      <div class="maintenance-code">404 <span>·</span> TEMPORARILY UNAVAILABLE</div>
+      <h1 id="maintenanceTitle">We’ll Be Back Soon</h1>
+      <p class="maintenance-message">Sorry for the inconvenience. Our server is currently under maintenance while we upgrade the website. Please come back later.</p>
+      <div class="maintenance-divider"></div>
+      <p class="maintenance-foot">Thank you for your patience.</p>
+    </div>
+  </section>
   <noscript><div class="noscript">This web player needs JavaScript enabled.</div></noscript>
 </body>
 </html>
