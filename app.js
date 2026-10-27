@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const MAINTENANCE_MODE = false;
+  const MAINTENANCE_MODE = true;
   if (MAINTENANCE_MODE) {
     const appShell = document.getElementById('appShell');
     const maintenanceScreen = document.getElementById('maintenanceScreen');
